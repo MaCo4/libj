@@ -2,7 +2,7 @@ package libj.math;
 
 
 /**
- *
+ * 
  * @author Magnus C. Hyll <magnus@hyll.no>
  */
 public class Matrix {
@@ -13,7 +13,7 @@ public class Matrix {
     
     public Matrix(int rows, int cols) {
         if (rows <= 0 || cols <= 0) {
-            throw new IllegalArgumentException("Rows or cols can't be zero");
+            throw new IllegalArgumentException("Rows or cols can't be zero or negative");
         }
         
         this.rows = rows;
@@ -132,28 +132,6 @@ public class Matrix {
         return res;
     }
     
-    public double det() {
-        if (rows != cols) {
-            throw new IllegalStateException("Non-square matrix");
-        }
-        
-        if (rows == 1) {
-            return getElem(1, 1);
-        }
-        
-        else if (rows == 2) {
-            return getElem(1, 1) * getElem(2, 2)
-                 - getElem(2, 1) * getElem(1, 2);
-        }
-        
-        double det = 0;
-        for (int c = 1; c <= cols; c++) {
-            det += getElem(1, c) * cof(1, c);
-        }
-        
-        return det;
-    }
-    
     public Matrix transpose() {
         Matrix res = new Matrix(cols, rows);
         for (int i = 1; i <= rows; i++) {
@@ -162,10 +140,6 @@ public class Matrix {
             }
         }
         return res;
-    }
-    
-    public double cof(int r, int c) {
-        return ((c + r) % 2 == 0 ? 1 : -1) * subMat(r, c).det();
     }
     
     public Matrix subMat(int row, int col) {
@@ -186,38 +160,29 @@ public class Matrix {
         return res;
     }
     
-    public Matrix inv() {
-        if (det() == 0) {
-            return null;
+    public double sumRow(int row) {
+        if (!isWithin(row, 1)) {
+            throw new IllegalArgumentException("Row is not within matrix");
         }
         
-        Matrix res = new Matrix(rows, cols);
-        double detInv = 1 / det();
-        
-        for (int r = 1; r <= rows; r++) {
-            for (int c = 1; c <= cols; c++) {
-                res.setElem(r, c, cof(r, c) * detInv);
-            }
+        double sum = 0;
+        for (int col = 1; col <= cols; col++) {
+            sum += getElem(row, col);
         }
-        return res;
+        
+        return sum;
     }
     
-    public void loadIdentity() {
-        if (rows != cols) {
-            throw new IllegalStateException("Non-square matrix");
+    public double sumCol(int col) {
+        if (!isWithin(1, col)) {
+            throw new IllegalArgumentException("Column is not within matrix");
         }
         
-        elem = new double[rows * rows];
-        for (int i = 0; i < rows * rows; i += rows + 1) {
-            elem[i] = 1;
+        double sum = 0;
+        for (int row = 1; row <= rows; row++) {
+            sum += getElem(row, col);
         }
-    }
-    
-    public static Matrix identity(int dim) {
-        Matrix res = new Matrix(dim, dim);
-        for (int i = 0; i < dim * dim; i += dim + 1) {
-            res.elem[i] = 1;
-        }
-        return res;
+        
+        return sum;
     }
 }
