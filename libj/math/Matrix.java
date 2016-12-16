@@ -356,6 +356,10 @@ public class Matrix {
             return false;
         }
         
+        if (this == other) {
+            return true;
+        }
+        
         Matrix mat = (Matrix) other;
         
         if (mat.cols != cols || mat.rows != rows) {

@@ -13,10 +13,10 @@ public class RotationYMatrix extends SqMatrix {
         super(4);
         loadIdentity();
         
-        setElem(1, 1, Math.cos(angle * Const.piover180));
-        setElem(1, 3, Math.sin(angle * Const.piover180));
-        setElem(3, 1, -Math.sin(angle * Const.piover180));
-        setElem(3, 3, Math.cos(angle * Const.piover180));
+        setElem(1, 1, Math.cos(angle * Const.degToRad));
+        setElem(1, 3, Math.sin(angle * Const.degToRad));
+        setElem(3, 1, -Math.sin(angle * Const.degToRad));
+        setElem(3, 3, Math.cos(angle * Const.degToRad));
     }
     
 }
