@@ -343,6 +343,16 @@ public class Matrix {
     }
     
     /**
+     * Returns a copy of this matrix.
+     * @return 
+     */
+    public Matrix copy() {
+        Matrix ret = new Matrix(rows, cols);
+        ret.setAll(elem);
+        return ret;
+    }
+    
+    /**
      * Checks if this matrix is equal to another matrix. They are equal if and
      * only if their row and column count match, and each elements in this
      * matrix matches exactly the element in the same position in the other
